@@ -1,51 +1,49 @@
 package app.dao;
 
 import app.models.User;
-
-import java.util.ArrayList;
+import org.springframework.stereotype.Component;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
+
+@Component
 public class UsersDaoImpl implements UsersDao{
-    private int counter;
-    private List<User> users;
+
+    @PersistenceContext
+    private EntityManager entityManager;
     {
-        users = new ArrayList<>();
-        users.add(new User(++counter,"User_1","user_1@mail.com"));
-        users.add(new User(++counter,"User_2","user_2@mail.com"));
-        users.add(new User(++counter,"User_3","user_3@mail.com"));
-        users.add(new User(++counter,"User_4","user_4@mail.com"));
-        users.add(new User(++counter,"User_5","user_5@mail.com"));
+        entityManager.persist(new User("User_1","user_1@mail.com"));
+        entityManager.persist(new User("User_2","user_2@mail.com"));
+        entityManager.persist(new User("User_3","user_3@mail.com"));
+        entityManager.persist(new User("User_4","user_4@mail.com"));
+        entityManager.persist(new User("User_5","user_5@mail.com"));
+
     }
     @Override
     public List<User> getUsers(String count) {
-        if (count != null && Integer.parseInt(count) < 5 && Integer.parseInt(count) > 0) {
-            return users.subList(0, Integer.parseInt(count));
-        }
-        return users;
+            return entityManager.createQuery("SELECT u FROM User u").getResultList();
     }
 
     @Override
     public void save(User user) {
-        user.setId(++counter);
-        users.add(user);
+        entityManager.persist(user);
     }
 
     @Override
     public User findUser(int id) {
-        return users.stream().filter(user -> user.getId() == id).findAny().orElse(null);
+        return (User) entityManager.find(User.class,id);
     }
 
     @Override
     public void update(User user, int id) {
-        User changedUser = findUser(id);
-        changedUser.setName(user.getName());
-        changedUser.setEmail(user.getEmail());
+        user.setId(id);
+        entityManager.merge(user);
     }
 
     @Override
     public void delete(int id) {
-        users.removeIf(user -> user.getId() == id);
+        User user = (User) entityManager.find(User.class, id);
+        entityManager.remove(user);
     }
-
-
 }

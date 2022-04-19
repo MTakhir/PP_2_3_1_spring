@@ -4,11 +4,11 @@ import app.dao.UsersDao;
 import app.dao.UsersDaoImpl;
 import app.models.User;
 import org.springframework.stereotype.Component;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class UsersServiceImpl implements UsersService{
+
     private UsersDao usersDao = new UsersDaoImpl();
 
     @Override
