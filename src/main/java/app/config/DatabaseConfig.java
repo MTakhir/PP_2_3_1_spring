@@ -14,17 +14,17 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
+@ComponentScan("app")
 public class DatabaseConfig {
 
-    @Bean
+    @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan(new String[] { "app.model" });
-
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
+        em.setPersistenceUnitName("myJpaPersistenceUnit");
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(additionalProperties());
 
         return em;
@@ -40,7 +40,7 @@ public class DatabaseConfig {
         return dataSource;
     }
 
-    @Bean
+    @Bean(name = "transactionManager")
     public PlatformTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());

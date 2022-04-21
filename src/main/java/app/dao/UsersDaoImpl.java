@@ -1,17 +1,23 @@
 package app.dao;
 
 import app.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
 
-@Component
+@Repository
+@Transactional(readOnly = true)
 public class UsersDaoImpl implements UsersDao{
 
-    @PersistenceContext
+    @PersistenceContext(name = "entityManagerFactory")
     private EntityManager entityManager;
+
     {
         entityManager.persist(new User("User_1","user_1@mail.com"));
         entityManager.persist(new User("User_2","user_2@mail.com"));
@@ -26,6 +32,7 @@ public class UsersDaoImpl implements UsersDao{
     }
 
     @Override
+    @Transactional
     public void save(User user) {
         entityManager.persist(user);
     }
@@ -36,12 +43,14 @@ public class UsersDaoImpl implements UsersDao{
     }
 
     @Override
+    @Transactional
     public void update(User user, int id) {
         user.setId(id);
         entityManager.merge(user);
     }
 
     @Override
+    @Transactional
     public void delete(int id) {
         User user = (User) entityManager.find(User.class, id);
         entityManager.remove(user);
