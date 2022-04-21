@@ -14,7 +14,6 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan("app")
 public class DatabaseConfig {
 
     @Bean(name = "entityManagerFactory")
@@ -22,7 +21,7 @@ public class DatabaseConfig {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[] { "app.model" });
+        em.setPackagesToScan(new String[] { "app" });
         em.setPersistenceUnitName("myJpaPersistenceUnit");
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(additionalProperties());
