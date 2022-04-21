@@ -1,8 +1,7 @@
 package app.dao;
 
 import app.models.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +14,15 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class UsersDaoImpl implements UsersDao{
 
-    @PersistenceContext(name = "entityManagerFactory")
+    @PersistenceContext
     private EntityManager entityManager;
+
+    public UsersDaoImpl() {
+    }
+
+    public UsersDaoImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     {
         entityManager.persist(new User("User_1","user_1@mail.com"));
