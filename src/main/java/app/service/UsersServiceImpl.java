@@ -1,31 +1,22 @@
 package app.service;
 
 import app.dao.UsersDao;
-import app.dao.UsersDaoImpl;
 import app.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class UsersServiceImpl implements UsersService{
 
-
+    @Autowired
     private UsersDao usersDao;
 
-    public UsersServiceImpl() {
-    }
-
-    @Autowired
-    public UsersServiceImpl(UsersDao usersDao) {
-        this.usersDao = usersDao;
-    }
-
     @Override
+    @Transactional
     public List<User> getUsers(String count) {
         return usersDao.getUsers(count);
     }
@@ -37,6 +28,7 @@ public class UsersServiceImpl implements UsersService{
     }
 
     @Override
+    @Transactional
     public User findUser(int id) {
         return usersDao.findUser(id);
     }
