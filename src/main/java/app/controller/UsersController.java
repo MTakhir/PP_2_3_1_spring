@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/users")
 public class UsersController {
-    private UsersService usersService;
     @Autowired
-    public UsersController(UsersService usersService) {
-        this.usersService = usersService;
-    }
+    private UsersService usersService;
 
     @GetMapping()
     public String allUsers(@RequestParam(value = "count", required = false) String count, ModelMap model) {
@@ -27,7 +24,6 @@ public class UsersController {
     public String newUser(Model model) {
         model.addAttribute("user", new User());
         return "new";
-
     }
 
     @PostMapping
@@ -42,7 +38,7 @@ public class UsersController {
         return "update";
     }
 
-    @PostMapping("/{id}")
+    @PatchMapping("/{id}")
     public String update (@ModelAttribute("user") User user, @PathVariable("id") int id) {
         usersService.update(user, id);
         return "redirect:/users";

@@ -28,10 +28,8 @@ public class DatabaseConfig {
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan(new String[] { "app" });
-        em.setPersistenceUnitName("myJpaPersistenceUnit");
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(additionalProperties());
-
         return em;
     }
 
@@ -49,7 +47,6 @@ public class DatabaseConfig {
     public PlatformTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-
         return transactionManager;
     }
 
@@ -64,7 +61,6 @@ public class DatabaseConfig {
         properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
         properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
         properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
-
         return properties;
     }
 }
