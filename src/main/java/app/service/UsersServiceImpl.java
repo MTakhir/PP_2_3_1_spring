@@ -16,8 +16,8 @@ public class UsersServiceImpl implements UsersService{
     private UsersDao usersDao;
 
     @Override
-    public List<User> getUsers(String count) {
-        return usersDao.getUsers(count);
+    public List<User> getUsers() {
+        return usersDao.getUsers();
     }
 
     @Override

@@ -14,7 +14,7 @@ public class UsersDaoImpl implements UsersDao{
     private EntityManager entityManager;
 
     @Override
-    public List<User> getUsers(String count) {
+    public List<User> getUsers() {
             return entityManager.createQuery("SELECT u FROM User u").getResultList();
     }
 

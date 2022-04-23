@@ -15,8 +15,8 @@ public class UsersController {
     private UsersService usersService;
 
     @GetMapping()
-    public String allUsers(@RequestParam(value = "count", required = false) String count, ModelMap model) {
-        model.addAttribute("users", usersService.getUsers(count));
+    public String allUsers(ModelMap model) {
+        model.addAttribute("users", usersService.getUsers());
         return "users";
     }
 
